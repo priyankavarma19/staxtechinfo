@@ -1,0 +1,83 @@
+import random
+import sys
+import time
+
+# ----------------------------
+# QUIZ GAME PROJECT (SINGLE FILE)
+# ----------------------------
+
+# Question bank
+QUESTIONS = [
+    {
+        "question": "What is the capital of France?",
+        "options": ["A) Paris", "B) London", "C) Rome", "D) Berlin"],
+        "answer": "A"
+    },
+    {
+        "question": "Which planet is known as the Red Planet?",
+        "options": ["A) Mercury", "B) Venus", "C) Earth", "D) Mars"],
+        "answer": "D"
+    },
+    {
+        "question": "What is the largest mammal in the world?",
+        "options": ["A) Elephant", "B) Blue Whale", "C) Giraffe", "D) Orca"],
+        "answer": "B"
+    },
+    {
+        "question": "Who wrote 'Romeo and Juliet'?",
+        "options": ["A) William Shakespeare", "B) Charles Dickens", "C) Mark Twain", "D) Jane Austen"],
+        "answer": "A"
+    }
+]
+
+def slow_print(text, delay=0.03):
+    """Print characters one by one for effect."""
+    for ch in text:
+        print(ch, end='', flush=True)
+        time.sleep(delay)
+    print()
+
+def ask_question(q):
+    """Display a question and get user answer."""
+    print("\n" + q["question"])
+    for opt in q["options"]:
+        print(opt)
+    while True:
+        answer = input("Your answer (A/B/C/D): ").strip().upper()
+        if answer in ["A", "B", "C", "D"]:
+            return answer
+        print("Invalid choice. Try again.")
+
+def start_quiz():
+    score = 0
+    random.shuffle(QUESTIONS)
+
+    slow_print("\nWelcome to the Python Quiz Game!")
+    slow_print("Answer the questions and test your knowledge!\n")
+
+    for q in QUESTIONS:
+        user_answer = ask_question(q)
+        if user_answer == q["answer"]:
+            slow_print("✔ Correct!\n", 0.01)
+            score += 1
+        else:
+            slow_print(f"✘ Wrong! Correct answer was: {q['answer']}\n", 0.01)
+
+    slow_print(f"Your final score: {score}/{len(QUESTIONS)}")
+    if score == len(QUESTIONS):
+        slow_print("🏆 Perfect score! Well done!")
+    elif score >= len(QUESTIONS) // 2:
+        slow_print("👍 Good job!")
+    else:
+        slow_print("Keep practicing! 😊")
+
+def main():
+    while True:
+        start_quiz()
+        again = input("\nPlay again? (yes/no): ").strip().lower()
+        if again not in ["yes", "y"]:
+            slow_print("Thanks for playing! Goodbye!")
+            sys.exit()
+
+if __name__ == "__main__":
+    main()
